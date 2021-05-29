@@ -19,9 +19,11 @@ def main():
         size = spiral[0]
         
         
-        spiral2D = create_spiral(size)
+        #spiral2D = create_spiral(size)
         
-        print_list(spiral)
+        create_spiral(size)
+        
+        #print_list(spiral)
         #file.close()
 
     
@@ -39,11 +41,72 @@ def main():
 def create_spiral ( n ):
     if(n < 1):
         raise ValueError("Given spiral size is invalid (less than 1)")
-    if( (n % 2) != 0 ):
+    elif(n > 99):
+        raise ValueError("Given spiral size is invalid (more than 99)")
+    elif( (n % 2) == 0 ):
         n += 1
     
+    list2D = [[]]
+    
+    counter = 1
+    move = 1
+    x = int(n/2) 
+    y = int(n/2) 
     
     
+    rows, cols = (n, n)
+    arr = []
+    for i in range(rows):
+        col = []
+        for j in range(cols):
+            col.append(0)
+        arr.append(col)
+    list2D = arr
+    
+    
+    # Y THEN X  !!!!!!!
+    list2D[x][y] = 1
+    
+    print_2D(list2D,n)
+    
+    
+    while(counter < n**2):
+
+        for right in range(move):
+            counter += 1
+            if(counter <= n**2):
+                x += 1
+                list2D[y][x] = counter
+                #print_2D(list2D,n)
+            
+        for down in range(move):
+            
+            counter += 1
+            if(counter < n**2):
+                y += 1
+                list2D[y][x] = counter
+                #print_2D(list2D,n)
+            
+        move += 1
+        
+        for left in range(move):
+            
+            counter += 1
+            if(counter < n**2):
+                x -= 1
+                list2D[y][x] = counter
+                #print_2D(list2D,n)
+            
+        for up in range(move):
+            
+            counter += 1
+            if(counter < n**2):
+                y -= 1
+                list2D[y][x] = counter
+                #print_2D(list2D,n)
+        
+        move += 1
+    print_2D(list2D,n)
 # Input: spiral is a 2-D list and n is an integer
 # Output: returns an integer that is the sum of the
 #         numbers adjacent to n in the spiral
@@ -54,6 +117,13 @@ def sum_adjacent_numbers (spiral, n):
 def print_list (list):
     for i in list:
         print(i)
+
+def print_2D (list, size):
+    for i in range(size):
+        for j in range(size):
+            print(str(list[i][j]).ljust(4," "), end = " ")
+        print()
+    print()
 
 if __name__ == "__main__":
     main()
