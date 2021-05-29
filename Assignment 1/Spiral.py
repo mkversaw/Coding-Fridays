@@ -19,13 +19,11 @@ def main():
         size = spiral[0]
         
         
-        #spiral2D = create_spiral(size)
+        spiral2D = create_spiral(size)
         
-        create_spiral(size)
         
-        #print_list(spiral)
-        #file.close()
-
+        print_2D(spiral2D,size)
+        print(sum_adjacent_numbers(spiral2D, 1))
     
     except FileNotFoundError:
         print("Failed to open file, did not exist")
@@ -67,7 +65,7 @@ def create_spiral ( n ):
     # Y THEN X  !!!!!!!
     list2D[x][y] = 1
     
-    print_2D(list2D,n)
+    #print_2D(list2D,n)
     
     
     while(counter < n**2):
@@ -106,13 +104,65 @@ def create_spiral ( n ):
                 #print_2D(list2D,n)
         
         move += 1
-    print_2D(list2D,n)
+    #print_2D(list2D,n)
+    return list2D
+    
+    
+
 # Input: spiral is a 2-D list and n is an integer
 # Output: returns an integer that is the sum of the
 #         numbers adjacent to n in the spiral
 #         if n is outside the range return 0
 def sum_adjacent_numbers (spiral, n):
-    pass
+    sum = 0
+    length = len(spiral)
+    for i in range(length):
+        for j in range(length):
+            if(n == spiral[i][j]):
+                try:
+                    sum += spiral[i-1][j+1]
+                except:
+                    sum += 0
+                try:
+                    sum += spiral[i][j+1]
+                except:
+                    sum += 0
+                try:
+                    sum += spiral[i+1][j+1]
+                except:
+                    sum += 0
+                    
+                try:
+                    sum += spiral[i-1][j]
+                except:
+                    sum += 0
+               
+                try:
+                    sum += spiral[i+1][j]
+                except:
+                    sum += 0
+               
+                try:
+                    sum += spiral[i-1][j-1]
+                except:
+                    sum += 0
+                    
+                try:
+                    sum += spiral[i][j-1]
+                except:
+                    sum += 0
+                    
+                try:
+                    sum += spiral[i+1][j-1]
+                except:
+                    sum += 0
+               
+               
+    return sum
+                
+    
+    
+    
 
 def print_list (list):
     for i in list:
