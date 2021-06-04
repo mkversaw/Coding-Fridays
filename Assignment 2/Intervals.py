@@ -4,26 +4,19 @@ import sys
 # Output: a list of merged tuples sorted by the lower number of the
 #         interval
 def merge_tuples (tuples_list):
-	list_length = len(tuples_list)
-	merged_tuples = []
-	for i in range(list_length):
-		lwr = tuples_list[i][0] # lower bound
-		upr = tuples_list[i][1] # upper bound
-		for j in range(i,list_length):
-			lwr2 = tuples_list[j][0]
-			upr2 = tuples_list[j][1]
-			if(lwr >= lwr2 and lwr < upr2):
-				lwr = lwr2
-				tuples_list.pop(j)
-				list_length -= 1
-			if(upr <= upr2 and upr > lwr2):
-				upr = upr2
-				tuples_list.pop(j)
-				list_length -= 1
-			#print(tuples_list)
-		#merged_tuples.append((lwr,upr))
-	return merged_tuples
-
+	sorted_tuples = tuples_list
+	sorted_tuples.sort()
+	tuple_stack = []
+	tuple_stack.append(sorted_tuples[0])
+	for i in range(1,len(sorted_tuples)):
+		if(tuple_stack[-1][1] < sorted_tuples[i][0]):
+			tuple_stack.append(sorted_tuples[i])
+		elif(tuple_stack[-1][1] < sorted_tuples[i][1]):
+			lwr = tuple_stack[-1][0]
+			upr = sorted_tuples[i][1]
+			tuple_stack.pop()
+			tuple_stack.append((lwr,upr))
+	return tuple_stack
 # Input: tuples_list is a list of tuples of denoting intervals
 # Output: a list of tuples sorted by ascending order of the size of
 #         the interval
@@ -46,30 +39,22 @@ def test_cases ():
 
 def main():
 	
-	try:
-		tuple_list = []
-		lines = sys.stdin.readlines()
-		intervals = int(lines.pop(0).strip()) # determine the number of intervals
-		
-		for i in lines:
-			str = i.split()
-			lower_bound = int(str[0])
-			upper_bound = int(str[1])
-			
-			temp_tuple = (lower_bound,upper_bound)
-			tuple_list.append(temp_tuple)
-			
-		new_list = merge_tuples(tuple_list)
-		new_list.sort()
-		for i in new_list:
-			print(i)
+	tuple_list = []
+	lines = sys.stdin.readlines()
+	intervals = int(lines.pop(0).strip()) # determine the number of intervals
 	
-	except FileNotFoundError:
-		print("Failed to open file, did not exist")
-	except Exception as e:
-		print("Program failed: ", e)
-	else:
-		print("Program finished successfully")
+	for i in lines:
+		str = i.split()
+		lower_bound = int(str[0])
+		upper_bound = int(str[1])
+		
+		temp_tuple = (lower_bound,upper_bound)
+		tuple_list.append(temp_tuple)
+		
+	new_list = merge_tuples(tuple_list)
+	new_list.sort()
+	for i in new_list:
+		print(i)
 
 if __name__ == "__main__":
 	main()
