@@ -1,7 +1,4 @@
 import sys
-import fileinput
-
-
 
 def main():   
     # open file w/ name spiral.in

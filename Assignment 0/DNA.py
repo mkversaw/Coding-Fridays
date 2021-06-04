@@ -1,5 +1,4 @@
 import sys
-import fileinput
 
 # Input: s1 and s2 are two strings that represent strands of DNA
 # Output: returns a sorted list of substrings that are the longest 
